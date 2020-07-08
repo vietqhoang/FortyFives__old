@@ -1,8 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
-import BarbellPropType from "../../prop-types/barbell"
-import PlatePropType from "../../prop-types/plate"
-import ExerciseWeightPropType from "../../prop-types/exercise-weight"
+import BarbellPropType from "../../lib/prop-types/barbell"
+import PlatePropType from "../../lib/prop-types/plate"
+import ExerciseWeightPropType from "../../lib/prop-types/exercise-weight"
 import EquipmentDiagram from "../equipment-diagram/equipment-diagram"
 import PlateTable from "../plate-table/plate-table"
 

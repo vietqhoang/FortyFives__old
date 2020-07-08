@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import PlatePropType from "../../prop-types/plate"
+import PlatePropType from "../../lib/prop-types/plate"
 import classnames from "classnames"
 
 const PlateTable = ({

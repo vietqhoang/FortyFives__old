@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
-import PlatePropType from "../../prop-types/plate"
-import ExerciseWeightPropType from "../../prop-types/exercise-weight"
+import PlatePropType from "../../lib/prop-types/plate"
+import ExerciseWeightPropType from "../../lib/prop-types/exercise-weight"
 import PlateTable from "../plate-table/plate-table"
 
 const UnsuccessfulResult = ({
