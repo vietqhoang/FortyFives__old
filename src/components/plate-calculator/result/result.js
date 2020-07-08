@@ -121,7 +121,10 @@ const Result = ({
                 </>
               ) : (
                 <>
-                  <EquipmentDiagram plates={plates.length > 0 ? plates : suggestionPlates} />
+                  <EquipmentDiagram
+                    barbell={barbell}
+                    plates={plates.length > 0 ? plates : suggestionPlates}
+                  />
 
                   <p>Load each side of the bar with the following plates:</p>
 
