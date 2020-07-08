@@ -1,8 +1,10 @@
 export default [
+  { weight: 100, unit: "lbs", system: "imperial" },
   { weight: 55, unit: "lbs", system: "imperial" },
   { weight: 45, unit: "lbs", system: "imperial" },
   { weight: 35, unit: "lbs", system: "imperial" },
   { weight: 25, unit: "lbs", system: "imperial" },
+  { weight: 15, unit: "lbs", system: "imperial" },
   { weight: 10, unit: "lbs", system: "imperial" },
   { weight: 5, unit: "lbs", system: "imperial" },
   { weight: 2.5, unit: "lbs", system: "imperial" },

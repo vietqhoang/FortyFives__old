@@ -25,6 +25,13 @@
   }
 }
 
+.plate__100lbs {
+  background-color: theme('colors.black');
+  &:after {
+    content: "100";
+  }
+}
+
 .plate__55lbs {
   background-color: theme('colors.red.600');
   &:after {
@@ -50,6 +57,15 @@
   background-color: theme('colors.green.600');
   &:after {
     content: "25";
+  }
+}
+
+.plate__15lbs {
+  background-color: theme('colors.black');
+  height: 95%;
+  &:after {
+    content: "15";
+    line-height: calc(0.95 * 200px - 0.25rem);
   }
 }
 

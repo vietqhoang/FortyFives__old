@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import PropTypes from "prop-types"
 import BarbellPropType from "../prop-types/barbell"
 import PlatePropType from "../prop-types/plate"
@@ -16,6 +16,10 @@ const Equipment = ({
   const plateId = ({ weight, unit }) => (weight && unit && `plate__${weight}${unit}`) || ""
   const rejectByWeight = (collection, weightValue) => collection.filter(({ weight }) => weight !== parseFloat(weightValue))
 
+  useEffect(() => {
+    handleSetBarbell(BARBELLS[0])
+  }, [])
+
   return (
     <form className="w-full font-sans px-8 pt-6 pb-8 mb-4">
       <h2>Step 1: Equipment?</h2>
@@ -27,7 +31,6 @@ const Equipment = ({
           onChange={(e) => handleSetBarbell(findByWeight(BARBELLS, e.target.value))}
           value={barbell.weight}
         >
-          <option value="" disabled>Select your option</option>
           {
             BARBELLS.map((barbellOption) => {
               const { weight, unit } = barbellOption

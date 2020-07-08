@@ -14,7 +14,7 @@ const PlateTable = ({
       <thead>
         <tr>
           <th className="px-4 py-2 text-left">Number of plates</th>
-          <th className="px-4 py-2 text-left">Weight ({ plates[0]?.weight })</th>
+          <th className="px-4 py-2 text-left">Weight ({ plates[0]?.unit })</th>
         </tr>
       </thead>
       <tbody>

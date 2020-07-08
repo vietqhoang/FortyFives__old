@@ -19,7 +19,10 @@ const EquipmentDiagram = ({
       "align-middle",
       "rounded-md",
       "mx-px",
-      "w-8"
+      {
+        "w-8": weight < 100,
+        "w-10": weight >= 100,
+      }
     )
 
     return [...Array(count/2).keys()].reduce((elements, index) => {
