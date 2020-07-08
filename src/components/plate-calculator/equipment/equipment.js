@@ -17,7 +17,7 @@ const Equipment = ({
   const rejectByWeight = (collection, weightValue) => collection.filter(({ weight }) => weight !== parseFloat(weightValue))
 
   return (
-    <form className="w-full max-w-xs font-sans bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <form className="w-full font-sans bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <h2>Step 1: Equipment?</h2>
 
       <div className="mb-6">
@@ -47,7 +47,7 @@ const Equipment = ({
         <p className="text-gray-600">Optional: Leave blank if you would like to generate a recommended plate set-up.</p>
         {
           PLATES.map((plate) => {
-            const { weight, unit, availableCount } = plate
+            const { weight, unit, count } = plate
 
             return (
               <div key={plateId(plate)} className="mb-4">
@@ -66,8 +66,8 @@ const Equipment = ({
                   step="2"
                   data-weight={weight}
                   placeholder="Number of plates?"
-                  value={availableCount}
-                  onChange={(e) => handleSetPlates([...rejectByWeight(plates, e.target.dataset.weight), { ...findByWeight(PLATES, e.target.dataset.weight), availableCount: parseInt(e.target.value) || 0 }].filter(({ availableCount }) => availableCount !== 0))}
+                  value={count}
+                  onChange={(e) => handleSetPlates([...rejectByWeight(plates, e.target.dataset.weight), { ...findByWeight(PLATES, e.target.dataset.weight), count: parseInt(e.target.value) || 0 }].filter(({ count }) => count !== 0))}
                 />
               </div>
             )

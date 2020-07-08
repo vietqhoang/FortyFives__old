@@ -4,5 +4,5 @@ export default PropTypes.shape({
   weight: PropTypes.number,
   unit: PropTypes.string,
   system: PropTypes.string,
-  availableCount: PropTypes.number,
+  count: PropTypes.number,
 })

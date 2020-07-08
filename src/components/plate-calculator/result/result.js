@@ -60,15 +60,15 @@ const Result = ({
 
     const suggestedPlates = sortByDescendingWeight(PLATES).reduce((collection, plate) => {
       const { weight } = plate
-      const suggestedPlate = { ...plate, suggestedCount: 0 }
+      const suggestedPlate = { ...plate, count: 0 }
 
       if (calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, weight * 2) < 0) {
         return collection
       }
 
       while (calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, weight * 2) >= 0) {
-        suggestedPlate.suggestedCount++
-        suggestedPlate.suggestedCount++
+        suggestedPlate.count++
+        suggestedPlate.count++
         exerciseWeightRemaining.weight = calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, weight * 2)
       }
 
@@ -85,13 +85,9 @@ const Result = ({
   }, [barbell, plates, exerciseWeight])
 
   return (
-    <div className="w-full max-w-xs font-sans bg-white px-8 pt-6 pb-8 mb-4">
+    <div className="w-full font-sans bg-white px-8 pt-6 pb-8 mb-4">
       <h2>Result</h2>
       { equipment.barbell.weight > exerciseWeight.weight && <p>Your exercise weight is less than the barbell weight</p> }
-
-      <div className="barbell-diagram">
-        This is some text
-      </div>
 
       {
         Object.keys(equipment.barbell).length > 0 && (
@@ -113,17 +109,33 @@ const Result = ({
 
                   <ol>
                     {
-                      calculateSuggestionPlates().map(({ weight, unit, suggestedCount }) => <li key={`plate__${weight}${unit}`}>{suggestedCount}x {weight} {unit}</li>)
+                      calculateSuggestionPlates().map(({ weight, unit, count }) => <li key={`plate__${weight}${unit}`}>{count}x {weight} {unit}</li>)
                     }
                   </ol>
                 </>
               ) : (
                 <>
+                  <div className="equipment-diagram">
+                    <ol className="loaded-barbell">
+                      <li className="barbell barbell--bar"></li>
+                      { (plates.length > 0 ? plates : calculateSuggestionPlates()).map(({ weight, unit, count }) => {
+                        let elements = []
+
+                        for (let i = 1; i <= count/2; i++) {
+                          elements = [...elements, <li key={`plate__${weight}${unit}--${i}`} className={`plate plate__${weight.toString().replace(".", "p")}lbs`}></li>]
+                        }
+
+                        return elements
+                      }) }
+                      <li className="barbell barbell--sleeve barbell__45lbs"></li>
+                    </ol>
+                  </div>
+
                   <p>Load each side of the bar with the following plates:</p>
 
                   <ol>
                     {
-                      calculateSuggestionPlates().map(({ weight, unit, suggestedCount }) => <li key={`plate__${weight}${unit}`}>{suggestedCount/2}x {weight} {unit}</li>)
+                      (plates.length > 0 ? plates : calculateSuggestionPlates()).map(({ weight, unit, count }) => <li key={`plate__${weight}${unit}`}>{count/2}x {weight} {unit}</li>)
                     }
                   </ol>
                 </>
