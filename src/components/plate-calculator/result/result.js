@@ -12,7 +12,7 @@ const Result = ({
   plates,
   exerciseWeight,
 }) => {
-  const [equipment, setEquipment] = useState({ barbell: {}, plates: [], exerciseWeightRemaining: exerciseWeight })
+  const [equipment, setEquipment] = useState({ utilizedPlates: [], suggestedPlates: [], exerciseWeightRemaining: exerciseWeight })
 
   const sortByDescendingWeight = (collection) => {
     return collection.sort((plateA, plateB) => {
@@ -78,7 +78,7 @@ const Result = ({
     const exerciseWeightRemaining = { ...exerciseWeight };
 
     if (calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, barbell.weight) <= 0) {
-      return { barbell, utilizedPlates: [], suggestionPlates: [], exerciseWeightRemaining }
+      return { utilizedPlates: [], suggestionPlates: [], exerciseWeightRemaining }
     }
 
     exerciseWeightRemaining.weight = calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, barbell.weight)
@@ -86,7 +86,7 @@ const Result = ({
     const utilizedPlates = calculateUtilizedPlates(exerciseWeightRemaining)
     const suggestionPlates = calculateSuggestionPlates(exerciseWeightRemaining, utilizedPlates)
 
-    return ({ barbell, exerciseWeightRemaining, utilizedPlates, suggestionPlates })
+    return ({ exerciseWeightRemaining, utilizedPlates, suggestionPlates })
   }
 
   useEffect(() => {
@@ -98,13 +98,13 @@ const Result = ({
   return (
     <div className="w-full font-sans bg-white px-8 pt-6 pb-8 mb-4">
       <h2>Result</h2>
-      { equipment.barbell.weight > exerciseWeight.weight && <p>Your exercise weight is less than the barbell weight</p> }
+      { barbell.weight > exerciseWeight.weight && <p>Your exercise weight is less than the barbell weight</p> }
 
       {
         equipment.exerciseWeightRemaining.weight >= 0 && (
-          <div>
+          <>
             {
-              equipment.barbell.weight < exerciseWeight.weight && equipment.utilizedPlates.length > 0 && equipment.suggestionPlates.length > 0 ? (
+              barbell.weight < exerciseWeight.weight && equipment.utilizedPlates.length > 0 && equipment.suggestionPlates.length > 0 ? (
                 <UnsuccessfulResult
                   suggestionPlates={equipment.suggestionPlates}
                   utilizedPlates={equipment.utilizedPlates}
@@ -118,7 +118,7 @@ const Result = ({
                 />
               )
             }
-          </div>
+          </>
         )
       }
     </div>
