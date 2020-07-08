@@ -1,18 +1,18 @@
 import React from "react"
 import ChildrenPropType from "../lib/prop-types/children"
 
-const ColumnSection = ({
+const Alert = ({
   children,
 }) => {
   return (
-    <div className="">
-      {children}
+    <div className="bg-red-100 p-4 mb-4 rounded text-center">
+      <p className="text-red-800">{children}</p>
     </div>
   )
 }
 
-ColumnSection.propTypes = {
+Alert.propTypes = {
   children: ChildrenPropType.isRequired
 };
 
-export default ColumnSection
+export default Alert

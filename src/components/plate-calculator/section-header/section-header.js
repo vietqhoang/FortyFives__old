@@ -5,9 +5,9 @@ const SectionHeader = ({
   children,
 }) => {
   return (
-    <h2 className="text-lg font-bold">
+    <h3 className="text-lg font-bold">
       {children}
-    </h2>
+    </h3>
   )
 }
 

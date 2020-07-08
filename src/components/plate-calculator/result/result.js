@@ -4,6 +4,7 @@ import BarbellPropType from "../lib/prop-types/barbell"
 import ExerciseWeightPropType from "../lib/prop-types/exercise-weight"
 import PlatePropType from "../lib/prop-types/plate"
 import PLATES from "../lib/constants/plates"
+import Alert from "../alert/alert"
 import SuccessfulResult from "./successful-result/successful-result"
 import UnsuccessfulResult from "./unsuccessful-result/unsuccessful-result"
 
@@ -97,27 +98,24 @@ const Result = ({
 
   return (
     <div>
-      { barbell.weight > exerciseWeight.weight && <p>Your exercise weight is less than the barbell weight</p> }
-
       {
-        equipment.exerciseWeightRemaining.weight >= 0 && (
-          <>
-            {
-              barbell.weight < exerciseWeight.weight && equipment.utilizedPlates.length > 0 && equipment.suggestionPlates.length > 0 ? (
-                <UnsuccessfulResult
-                  suggestionPlates={equipment.suggestionPlates}
-                  utilizedPlates={equipment.utilizedPlates}
-                  exerciseWeightRemaining={equipment.exerciseWeightRemaining}
-                />
-              ) : (
-                <SuccessfulResult
-                  barbell={barbell}
-                  exerciseWeight={exerciseWeight}
-                  plates={equipment.utilizedPlates.length > 0 ? equipment.utilizedPlates : equipment.suggestionPlates}
-                />
-              )
-            }
-          </>
+        (barbell.weight > exerciseWeight.weight && <Alert>Your exercise weight is less than the barbell weight</Alert>) ||
+        (
+          equipment.exerciseWeightRemaining.weight >= 0 && (
+            barbell.weight < exerciseWeight.weight && equipment.utilizedPlates.length > 0 && equipment.suggestionPlates.length > 0 && (
+              <UnsuccessfulResult
+                suggestionPlates={equipment.suggestionPlates}
+                utilizedPlates={equipment.utilizedPlates}
+                exerciseWeightRemaining={equipment.exerciseWeightRemaining}
+              />
+            ) || (
+              <SuccessfulResult
+                barbell={barbell}
+                exerciseWeight={exerciseWeight}
+                plates={equipment.utilizedPlates.length > 0 ? equipment.utilizedPlates : equipment.suggestionPlates}
+              />
+            )
+          )
         )
       }
     </div>

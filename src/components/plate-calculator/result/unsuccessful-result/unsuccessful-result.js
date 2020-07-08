@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import PlatePropType from "../../lib/prop-types/plate"
 import ExerciseWeightPropType from "../../lib/prop-types/exercise-weight"
+import Alert from "../../alert/alert"
 import PlateTable from "../plate-table/plate-table"
 
 const UnsuccessfulResult = ({
@@ -11,9 +12,9 @@ const UnsuccessfulResult = ({
 }) => {
   return (
     <div className="unsuccessful-result">
-      <div className="bg-red-100 p-4 mb-4 rounded text-center">
-        <p className="text-red-800">No adequate plates for the <strong>remaining {exerciseWeightRemaining.weight} {exerciseWeightRemaining.unit}</strong>.</p>
-      </div>
+      <Alert>
+        No adequate plates for the <strong>remaining {exerciseWeightRemaining.weight} {exerciseWeightRemaining.unit}</strong>.
+      </Alert>
 
       <div className="mb-8">
         <PlateTable

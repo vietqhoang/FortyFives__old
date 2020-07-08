@@ -1,5 +1,7 @@
 import React, { useState } from "react"
+import ColumnHeader from "./column-header/column-header"
 import ColumnLayout from "./column-layout/column-layout"
+import ColumnSection from "./column-section/column-section"
 import Equipment from "./equipment/equipment"
 import ExerciseWeight from "./exercise-weight/exercise-weight"
 import SectionHeader from "./section-header/section-header"
@@ -13,25 +15,32 @@ const PlateCalculator = () => {
   return (
     <div className="flex divide-x divide-gray-400 font-sans">
       <ColumnLayout>
-        <SectionHeader>What is your exercise weight?</SectionHeader>
-        <ExerciseWeight
-          handleSetExerciseWeight={setExerciseWeight}
-        />
-        <SectionHeader>What is your equipment?</SectionHeader>
-        <Equipment
-          barbell={barbell}
-          plates={plates}
-          handleSetBarbell={setBarbell}
-          handleSetPlates={setPlates}
-        />
+        <ColumnHeader>Calculate plates required to set-up bar for exercise weight</ColumnHeader>
+        <ColumnSection>
+          <SectionHeader>What is your exercise weight?</SectionHeader>
+          <ExerciseWeight
+            handleSetExerciseWeight={setExerciseWeight}
+          />
+        </ColumnSection>
+        <ColumnSection>
+          <SectionHeader>What is your equipment?</SectionHeader>
+          <Equipment
+            barbell={barbell}
+            plates={plates}
+            handleSetBarbell={setBarbell}
+            handleSetPlates={setPlates}
+          />
+        </ColumnSection>
       </ColumnLayout>
       <ColumnLayout>
-        <SectionHeader>Result</SectionHeader>
-        <Result
-          barbell={barbell}
-          plates={plates}
-          exerciseWeight={exerciseWeight}
-        />
+        <ColumnHeader>Result</ColumnHeader>
+        <ColumnSection>
+          <Result
+            barbell={barbell}
+            plates={plates}
+            exerciseWeight={exerciseWeight}
+          />
+        </ColumnSection>
       </ColumnLayout>
     </div>
   )
