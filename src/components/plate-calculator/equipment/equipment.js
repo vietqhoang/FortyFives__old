@@ -2,8 +2,8 @@ import React, { useEffect } from "react"
 import PropTypes from "prop-types"
 import BarbellPropType from "../lib/prop-types/barbell"
 import PlatePropType from "../lib/prop-types/plate"
-import BARBELLS from "../constants/barbells"
-import PLATES from "../constants/plates"
+import BARBELLS from "../lib/constants/barbells"
+import PLATES from "../lib/constants/plates"
 
 const Equipment = ({
   barbell,

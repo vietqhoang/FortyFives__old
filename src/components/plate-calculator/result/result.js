@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import BarbellPropType from "../lib/prop-types/barbell"
 import ExerciseWeightPropType from "../lib/prop-types/exercise-weight"
 import PlatePropType from "../lib/prop-types/plate"
-import PLATES from "../constants/plates"
+import PLATES from "../lib/constants/plates"
 import SuccessfulResult from "./successful-result/successful-result"
 import UnsuccessfulResult from "./unsuccessful-result/unsuccessful-result"
 
