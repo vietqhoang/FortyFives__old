@@ -5,7 +5,7 @@ const ColumnSection = ({
   children,
 }) => {
   return (
-    <div className="">
+    <div className="mb-8">
       {children}
     </div>
   )

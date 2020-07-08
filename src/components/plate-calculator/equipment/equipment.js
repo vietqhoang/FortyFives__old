@@ -23,8 +23,14 @@ const Equipment = ({
   return (
     <form>
       <div className="mb-6">
-        <h3>Barbell</h3>
+        <label
+          className="block text-gray-700 text-sm font-bold mb-2"
+          htmlFor="barbells"
+        >
+          Barbells
+        </label>
         <select
+          id="barbells"
           className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
           onChange={(e) => handleSetBarbell(findByWeight(BARBELLS, e.target.value))}
           value={barbell.weight}
@@ -44,8 +50,6 @@ const Equipment = ({
       </div>
 
       <div>
-        <h3>Plates</h3>
-        <p className="text-gray-600">Optional: Leave blank if you would like to generate a recommended plate set-up.</p>
         {
           PLATES.map((plate) => {
             const { weight, unit, count } = plate
@@ -56,7 +60,7 @@ const Equipment = ({
                   className="block text-gray-700 text-sm font-bold mb-2"
                   htmlFor={plateId(plate)}
                 >
-                  {weight} {unit}
+                  {weight} {unit} plate
                 </label>
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
