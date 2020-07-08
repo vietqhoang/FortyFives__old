@@ -9,7 +9,7 @@ const PlateCalculator = () => {
   const [exerciseWeight, setExerciseWeight] = useState({})
 
   return (
-    <div className="flex">
+    <div className="flex divide-x divide-gray-400">
       <div className="flex-1">
         <Equipment
           barbell={barbell}

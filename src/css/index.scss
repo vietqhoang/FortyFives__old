@@ -6,20 +6,10 @@
 }
 
 .loaded-barbell {
-  display: block;
-  margin: 0;
-  padding: 0;
   height: 200px;
 }
 
 .plate {
-  display: inline-block;
-  position: relative;
-  width: 2rem;
-  height: 100%;
-  vertical-align: middle;
-  border-radius: 5px;
-  margin: 0 1px 0;
   &:after {
     display: block;
     position: absolute;
@@ -36,28 +26,28 @@
 }
 
 .plate__55lbs {
-  background-color: red;
+  background-color: theme('colors.red.600');
   &:after {
     content: "55";
   }
 }
 
 .plate__45lbs {
-  background-color: blue;
+  background-color: theme('colors.blue.600');
   &:after {
     content: "45";
   }
 }
 
 .plate__35lbs {
-  background-color: #ffcd3c;
+  background-color: theme('colors.yellow.600');
   &:after {
     content: "35";
   }
 }
 
 .plate__25lbs {
-  background-color: green;
+  background-color: theme('colors.green.600');
   &:after {
     content: "25";
   }
@@ -131,13 +121,6 @@
 }
 
 .barbell {
-  display: inline-block;
-  position: relative;
-  background-color: theme('colors.gray.400');
-  height: 2rem;
-  width: 4rem;
-  vertical-align: middle;
-  margin: 0 1px 0;
 }
 
 .barbell--bar {
@@ -157,7 +140,6 @@
 }
 
 .barbell--sleeve {
-  border-radius: 0 5px 5px 0;
   &:after {
     display: block;
     position: absolute;

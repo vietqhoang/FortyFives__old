@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
 import PropTypes from "prop-types"
-import EquipmentDiagram from "./equipment-diagram/equipment-diagram"
 import BarbellPropType from "../prop-types/barbell"
 import ExerciseWeightPropType from "../prop-types/exercise-weight"
 import PlatePropType from "../prop-types/plate"
 import PLATES from "../constants/plates"
+import SuccessfulResult from "./successful-result/successful-result"
 
 const Result = ({
   barbell,
@@ -12,7 +12,6 @@ const Result = ({
   exerciseWeight,
 }) => {
   const [equipment, setEquipment] = useState({ barbell: {}, plates: [], exerciseWeightRemaining: exerciseWeight })
-  const [suggestionPlates, setSuggestionPlates] = useState([])
 
   const sortByDescendingWeight = (collection) => {
     return collection.sort((plateA, plateB) => {
@@ -25,27 +24,46 @@ const Result = ({
 
   const calculateExerciseWeightRemainingAfterEquipmentWeight = (exerciseWeightRemaining, weight) => exerciseWeightRemaining - weight
 
-  const calculatePlatesAndRemainingExerciseWeight = () => {
-    const exerciseWeightRemaining = { ...exerciseWeight };
+  const calculateSuggestionPlates = (exerciseWeightRemainingObject, utilizedPlates) => {
+    const exerciseWeightRemaining = { ...exerciseWeightRemainingObject };
 
-    if (calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, barbell.weight) <= 0) {
-      return { barbell, plates: [], exerciseWeightRemaining }
-    }
+    const suggestionPlates = sortByDescendingWeight(PLATES).reduce((collection, plate) => {
+      const { weight } = plate
+      const suggestionPlate = { ...plate, count: 0 }
 
-    exerciseWeightRemaining.weight = calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, barbell.weight)
+      if (calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, weight * 2) < 0) {
+        return collection
+      }
 
-    const utilizedPlates = sortByDescendingWeight(plates).reduce((collection, plate) => {
-      const { weight, availableCount } = plate
-      const calculatedPlate = { ...plate, utilizedCount: 0 }
-      let tallyAvailableCount = availableCount
+      while (calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, weight * 2) >= 0) {
+        suggestionPlate.count++
+        suggestionPlate.count++
+        exerciseWeightRemaining.weight = calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, weight * 2)
+      }
+
+      return [...collection, suggestionPlate]
+    }, [])
+
+    return suggestionPlates
+  }
+
+  const calculateUtilizedPlates = (exerciseWeightRemaining) => {
+    return sortByDescendingWeight(plates).reduce((collection, plate) => {
+      const { weight, count } = plate
+      const calculatedPlate = { ...plate, count: 0 }
+      let tallyAvailableCount = count
 
       if (calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, weight * 2) < 0) {
         return collection
       }
 
       while (tallyAvailableCount > 1) {
-        calculatedPlate.utilizedCount++
-        calculatedPlate.utilizedCount++
+        if (calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, weight * 2) < 0) {
+          break
+        }
+
+        calculatedPlate.count++
+        calculatedPlate.count++
         tallyAvailableCount--
         tallyAvailableCount--
         exerciseWeightRemaining.weight = calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, weight * 2)
@@ -53,31 +71,21 @@ const Result = ({
 
       return [...collection, calculatedPlate]
     }, [])
-
-    return ({ barbell, plates: utilizedPlates, exerciseWeightRemaining })
   }
 
-  const calculateSuggestionPlates = () => {
-    const exerciseWeightRemaining = { ...equipment.exerciseWeightRemaining }
+  const calculatePlatesAndRemainingExerciseWeight = () => {
+    const exerciseWeightRemaining = { ...exerciseWeight };
 
-    const suggestedPlates = sortByDescendingWeight(PLATES).reduce((collection, plate) => {
-      const { weight } = plate
-      const suggestedPlate = { ...plate, count: 0 }
+    if (calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, barbell.weight) <= 0) {
+      return { barbell, utilizedPlates: [], suggestionPlates: [], exerciseWeightRemaining }
+    }
 
-      if (calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, weight * 2) < 0) {
-        return collection
-      }
+    exerciseWeightRemaining.weight = calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, barbell.weight)
 
-      while (calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, weight * 2) >= 0) {
-        suggestedPlate.count++
-        suggestedPlate.count++
-        exerciseWeightRemaining.weight = calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, weight * 2)
-      }
+    const utilizedPlates = calculateUtilizedPlates(exerciseWeightRemaining)
+    const suggestionPlates = calculateSuggestionPlates(exerciseWeightRemaining, utilizedPlates)
 
-      return [...collection, suggestedPlate]
-    }, [])
-
-    return suggestedPlates
+    return ({ barbell, exerciseWeightRemaining, utilizedPlates, suggestionPlates })
   }
 
   useEffect(() => {
@@ -86,54 +94,31 @@ const Result = ({
     }
   }, [barbell, plates, exerciseWeight])
 
-  useEffect(() => {
-    setSuggestionPlates(calculateSuggestionPlates())
-  }, [equipment])
-
   return (
     <div className="w-full font-sans bg-white px-8 pt-6 pb-8 mb-4">
       <h2>Result</h2>
       { equipment.barbell.weight > exerciseWeight.weight && <p>Your exercise weight is less than the barbell weight</p> }
 
       {
-        Object.keys(equipment.barbell).length > 0 && (
-          <div>
-            <p>Barbell:</p>
-            <p>{equipment.barbell.weight} {equipment.barbell.unit}</p>
-          </div>
-        )
-      }
-
-      {
-        equipment.exerciseWeightRemaining.weight > 0 && (
+        equipment.exerciseWeightRemaining.weight >= 0 && (
           <div>
             {
-              equipment.barbell.weight < exerciseWeight.weight && plates.length > 0 ? (
+              equipment.barbell.weight < exerciseWeight.weight && equipment.utilizedPlates.length > 0 && equipment.suggestionPlates.length > 0 ? (
                 <>
                   <p>There aren't any plates for the remaining {equipment.exerciseWeightRemaining.weight} {equipment.exerciseWeightRemaining.unit}.</p>
                   <p>Recommended to acquire the additional plates below to load the bar to your exercise weight.</p>
 
                   <ol>
                     {
-                      suggestionPlates.map(({ weight, unit, count }) => <li key={`plate__${weight}${unit}`}>{count}x {weight} {unit}</li>)
+                      equipment.suggestionPlates.map(({ weight, unit, count }) => <li key={`plate__${weight}${unit}`}>{count}x {weight} {unit}</li>)
                     }
                   </ol>
                 </>
               ) : (
-                <>
-                  <EquipmentDiagram
-                    barbell={barbell}
-                    plates={plates.length > 0 ? plates : suggestionPlates}
-                  />
-
-                  <p>Load each side of the bar with the following plates:</p>
-
-                  <ol>
-                    {
-                      (plates.length > 0 ? plates : suggestionPlates).map(({ weight, unit, count }) => <li key={`plate__${weight}${unit}`}>{count/2}x {weight} {unit}</li>)
-                    }
-                  </ol>
-                </>
+                <SuccessfulResult
+                  barbell={barbell}
+                  plates={equipment.utilizedPlates.length > 0 ? equipment.utilizedPlates : equipment.suggestionPlates}
+                />
               )
             }
           </div>
