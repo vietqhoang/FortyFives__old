@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import PropTypes from "prop-types"
+import EquipmentDiagram from "./equipment-diagram/equipment-diagram"
 import BarbellPropType from "../prop-types/barbell"
 import ExerciseWeightPropType from "../prop-types/exercise-weight"
 import PlatePropType from "../prop-types/plate"
@@ -11,6 +12,7 @@ const Result = ({
   exerciseWeight,
 }) => {
   const [equipment, setEquipment] = useState({ barbell: {}, plates: [], exerciseWeightRemaining: exerciseWeight })
+  const [suggestionPlates, setSuggestionPlates] = useState([])
 
   const sortByDescendingWeight = (collection) => {
     return collection.sort((plateA, plateB) => {
@@ -84,6 +86,10 @@ const Result = ({
     }
   }, [barbell, plates, exerciseWeight])
 
+  useEffect(() => {
+    setSuggestionPlates(calculateSuggestionPlates())
+  }, [equipment])
+
   return (
     <div className="w-full font-sans bg-white px-8 pt-6 pb-8 mb-4">
       <h2>Result</h2>
@@ -109,33 +115,19 @@ const Result = ({
 
                   <ol>
                     {
-                      calculateSuggestionPlates().map(({ weight, unit, count }) => <li key={`plate__${weight}${unit}`}>{count}x {weight} {unit}</li>)
+                      suggestionPlates.map(({ weight, unit, count }) => <li key={`plate__${weight}${unit}`}>{count}x {weight} {unit}</li>)
                     }
                   </ol>
                 </>
               ) : (
                 <>
-                  <div className="equipment-diagram">
-                    <ol className="loaded-barbell">
-                      <li className="barbell barbell--bar"></li>
-                      { (plates.length > 0 ? plates : calculateSuggestionPlates()).map(({ weight, unit, count }) => {
-                        let elements = []
-
-                        for (let i = 1; i <= count/2; i++) {
-                          elements = [...elements, <li key={`plate__${weight}${unit}--${i}`} className={`plate plate__${weight.toString().replace(".", "p")}lbs`}></li>]
-                        }
-
-                        return elements
-                      }) }
-                      <li className="barbell barbell--sleeve barbell__45lbs"></li>
-                    </ol>
-                  </div>
+                  <EquipmentDiagram plates={plates.length > 0 ? plates : suggestionPlates} />
 
                   <p>Load each side of the bar with the following plates:</p>
 
                   <ol>
                     {
-                      (plates.length > 0 ? plates : calculateSuggestionPlates()).map(({ weight, unit, count }) => <li key={`plate__${weight}${unit}`}>{count/2}x {weight} {unit}</li>)
+                      (plates.length > 0 ? plates : suggestionPlates).map(({ weight, unit, count }) => <li key={`plate__${weight}${unit}`}>{count/2}x {weight} {unit}</li>)
                     }
                   </ol>
                 </>
