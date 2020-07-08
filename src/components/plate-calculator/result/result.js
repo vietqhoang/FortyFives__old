@@ -5,6 +5,7 @@ import ExerciseWeightPropType from "../prop-types/exercise-weight"
 import PlatePropType from "../prop-types/plate"
 import PLATES from "../constants/plates"
 import SuccessfulResult from "./successful-result/successful-result"
+import UnsuccessfulResult from "./unsuccessful-result/unsuccessful-result"
 
 const Result = ({
   barbell,
@@ -104,19 +105,15 @@ const Result = ({
           <div>
             {
               equipment.barbell.weight < exerciseWeight.weight && equipment.utilizedPlates.length > 0 && equipment.suggestionPlates.length > 0 ? (
-                <>
-                  <p>There aren't any plates for the remaining {equipment.exerciseWeightRemaining.weight} {equipment.exerciseWeightRemaining.unit}.</p>
-                  <p>Recommended to acquire the additional plates below to load the bar to your exercise weight.</p>
-
-                  <ol>
-                    {
-                      equipment.suggestionPlates.map(({ weight, unit, count }) => <li key={`plate__${weight}${unit}`}>{count}x {weight} {unit}</li>)
-                    }
-                  </ol>
-                </>
+                <UnsuccessfulResult
+                  suggestionPlates={equipment.suggestionPlates}
+                  utilizedPlates={equipment.utilizedPlates}
+                  exerciseWeightRemaining={equipment.exerciseWeightRemaining}
+                />
               ) : (
                 <SuccessfulResult
                   barbell={barbell}
+                  exerciseWeight={exerciseWeight}
                   plates={equipment.utilizedPlates.length > 0 ? equipment.utilizedPlates : equipment.suggestionPlates}
                 />
               )
