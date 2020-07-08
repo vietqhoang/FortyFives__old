@@ -5,8 +5,10 @@ const ColumnLayout = ({
   children,
 }) => {
   return (
-    <div className="flex-1 px-8 pt-6 pb-8">
-      {children}
+    <div className="flex flex-1 h-screen">
+      <div className="flex-1 px-8 pt-6 pb-8 overflow-y-scroll">
+        {children}
+      </div>
     </div>
   )
 }
