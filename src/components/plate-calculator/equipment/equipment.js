@@ -22,8 +22,6 @@ const Equipment = ({
 
   return (
     <form>
-      <h2>Step 1: Equipment?</h2>
-
       <div className="mb-6">
         <h3>Barbell</h3>
         <select

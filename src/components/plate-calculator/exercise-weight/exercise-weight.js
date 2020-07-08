@@ -8,8 +8,6 @@ const ExerciseWeight = ({
 
   return (
     <form>
-      <h2>Step 2: Exercise weight?</h2>
-
       <div className="mb-4">
         <label
           className="block text-gray-700 text-sm font-bold mb-2"

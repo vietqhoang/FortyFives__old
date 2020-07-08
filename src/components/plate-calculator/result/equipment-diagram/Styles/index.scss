@@ -1,0 +1,186 @@
+.equipment-diagram {
+}
+
+.loaded-barbell {
+  height: 200px;
+}
+
+.plate {
+  &:after {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: calc(200px - 0.25rem);
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 0 2px rgba(0,0,0,0.66);
+  }
+}
+
+.plate__100lbs {
+  background-color: theme('colors.black');
+  &:after {
+    content: "100";
+  }
+}
+
+.plate__55lbs {
+  background-color: theme('colors.red.600');
+  &:after {
+    content: "55";
+  }
+}
+
+.plate__45lbs {
+  background-color: theme('colors.blue.600');
+  &:after {
+    content: "45";
+  }
+}
+
+.plate__35lbs {
+  background-color: theme('colors.yellow.600');
+  &:after {
+    content: "35";
+  }
+}
+
+.plate__25lbs {
+  background-color: theme('colors.green.600');
+  &:after {
+    content: "25";
+  }
+}
+
+.plate__15lbs {
+  background-color: theme('colors.black');
+  height: 95%;
+  &:after {
+    content: "15";
+    line-height: calc(0.95 * 200px - 0.25rem);
+  }
+}
+
+.plate__10lbs {
+  background-color: theme('colors.black');
+  height: 90%;
+  &:after {
+    content: "10";
+    line-height: calc(0.9 * 200px - 0.25rem);
+  }
+}
+
+.plate__5lbs {
+  background-color: theme('colors.gray.600');
+  height: 80%;
+  &:after {
+    content: "5";
+    line-height: calc(0.8 * 200px - 0.25rem);
+  }
+}
+
+.plate__2p5lbs {
+  background-color: theme('colors.gray.600');
+  height: 70%;
+  &:after {
+    content: "2.5";
+    line-height: calc(0.7 * 200px - 0.25rem);
+  }
+}
+
+.plate__1p25lbs {
+  background-color: theme('colors.gray.600');
+  height: 60%;
+  &:after {
+    content: "1.25";
+    line-height: calc(0.6 * 200px - 0.25rem);
+    font-size: 0.6rem;
+  }
+}
+
+.plate__0p75lbs {
+  background-color: theme('colors.gray.600');
+  height: 50%;
+  &:after {
+    content: "0.75";
+    line-height: calc(0.5 * 200px - 0.25rem);
+    font-size: 0.6rem;
+  }
+}
+
+.plate__0p5lbs {
+  background-color: theme('colors.gray.600');
+  height: 40%;
+  &:after {
+    content: "0.50";
+    line-height: calc(0.4 * 200px - 0.25rem);
+    font-size: 0.6rem;
+  }
+}
+
+.plate__0p25lbs {
+  background-color: theme('colors.gray.600');
+  height: 30%;
+  &:after {
+    content: "0.25";
+    line-height: calc(0.3 * 200px - 0.25rem);
+    font-size: 0.6rem;
+  }
+}
+
+.barbell {
+}
+
+.barbell--bar {
+  background-image: linear-gradient(to right, white, theme('colors.gray.400'));
+
+  &:after {
+    content: "\0020";
+    display: block;
+    position: absolute;
+    width: 15px;
+    height: 150%;
+    top: -25%;
+    right: 0;
+    background-color: theme('colors.gray.400');
+    border-radius: 5px;
+  }
+}
+
+.barbell--sleeve {
+  &:after {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 2rem;
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 0 2px rgba(0,0,0,0.66);
+  }
+}
+
+.barbell__33lbs {
+  &:after {
+    content: "33";
+  }
+}
+
+.barbell__44lbs {
+  &:after {
+    content: "44";
+  }
+}
+
+.barbell__45lbs {
+  &:after {
+    content: "45";
+  }
+}

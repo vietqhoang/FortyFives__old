@@ -1,18 +1,18 @@
 import React from "react"
 import ChildrenPropType from "../lib/prop-types/children"
 
-const ColumnLayout = ({
+const SectionHeader = ({
   children,
 }) => {
   return (
-    <div className="flex-1 px-8 pt-6 pb-8">
+    <h2 className="text-lg font-bold">
       {children}
-    </div>
+    </h2>
   )
 }
 
-ColumnLayout.propTypes = {
+SectionHeader.propTypes = {
   children: ChildrenPropType.isRequired
 };
 
-export default ColumnLayout
+export default SectionHeader
