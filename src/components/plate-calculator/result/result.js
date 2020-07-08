@@ -96,7 +96,7 @@ const Result = ({
   }, [barbell, plates, exerciseWeight])
 
   return (
-    <div className="w-full font-sans bg-white px-8 pt-6 pb-8 mb-4">
+    <div>
       <h2>Result</h2>
       { barbell.weight > exerciseWeight.weight && <p>Your exercise weight is less than the barbell weight</p> }
 

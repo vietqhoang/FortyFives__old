@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import ColumnLayout from "./column-layout/column-layout"
 import Equipment from "./equipment/equipment"
 import ExerciseWeight from "./exercise-weight/exercise-weight"
 import Result from "./result/result"
@@ -9,27 +10,27 @@ const PlateCalculator = () => {
   const [exerciseWeight, setExerciseWeight] = useState({})
 
   return (
-    <div className="flex divide-x divide-gray-400">
-      <div className="flex-1">
+    <div className="flex divide-x divide-gray-400 font-sans">
+      <ColumnLayout>
         <Equipment
           barbell={barbell}
           plates={plates}
           handleSetBarbell={setBarbell}
           handleSetPlates={setPlates}
         />
-      </div>
-      <div className="flex-1">
+      </ColumnLayout>
+      <ColumnLayout>
         <ExerciseWeight
           handleSetExerciseWeight={setExerciseWeight}
         />
-      </div>
-      <div className="flex-1">
+      </ColumnLayout>
+      <ColumnLayout>
         <Result
           barbell={barbell}
           plates={plates}
           exerciseWeight={exerciseWeight}
         />
-      </div>
+      </ColumnLayout>
     </div>
   )
 }
