@@ -30,7 +30,7 @@ const EquipmentDiagram = ({
     }, [])
   })
 
-  const barbellClasses = ["inline-block", "relative", "align-middle", "mx-px", "bg-gray-400", "h-8", "w-16"]
+  const barbellClasses = ["inline-block", "relative", "align-middle", "mx-px", "h-full", "w-16"]
 
   return (
     <div className="equipment-diagram text-center">
@@ -38,7 +38,7 @@ const EquipmentDiagram = ({
         <li className={classnames("barbell", "barbell--bar", ...barbellClasses)}></li>
         { plateElements }
         <li
-          className={classnames("barbell", "barbell--sleeve", `barbell__${barbell.weight}${barbell.unit}`, ...barbellClasses, "rounded-r-md")}
+          className={classnames("barbell", "barbell--sleeve", `barbell__${barbell.weight}${barbell.unit}`, ...barbellClasses)}
           title={`${barbell.weight} ${barbell.unit} barbell`}
         ></li>
       </ol>
