@@ -9,10 +9,9 @@ const EquipmentDiagram = ({
   plates,
 }) => {
   const plateElements = plates.map(({ weight, unit, count }) => {
-    const plateClass = `plate__${weight.toString().replace(".", "p")}${unit}`
+    const plateKey = `plate__${weight.toString().replace(".", "p")}${unit}`
     const classes = classnames(
       "plate",
-      plateClass,
       "inline-block",
       "relative",
       "h-full",
@@ -26,7 +25,7 @@ const EquipmentDiagram = ({
     )
 
     return [...Array(count/2).keys()].reduce((elements, index) => {
-      return [...elements, <li key={`${plateClass}--${index}`} className={classes} title={`${weight} ${unit} plate`}></li>]
+      return [...elements, <li key={`${plateKey}--${index}`} data-weight={weight} data-unit={unit} className={classes} title={`${weight} ${unit} plate`}></li>]
     }, [])
   })
 
@@ -38,8 +37,10 @@ const EquipmentDiagram = ({
         <li className={classnames("barbell", "barbell--bar", ...barbellClasses)}></li>
         { plateElements }
         <li
-          className={classnames("barbell", "barbell--sleeve", `barbell__${barbell.weight}${barbell.unit}`, ...barbellClasses)}
+          className={classnames("barbell", "barbell--sleeve", ...barbellClasses)}
           title={`${barbell.weight} ${barbell.unit} barbell`}
+          data-weight={barbell.weight}
+          data-unit={barbell.unit}
         ></li>
       </ol>
     </div>

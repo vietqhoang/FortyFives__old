@@ -1,209 +1,156 @@
 .equipment-diagram {
-}
+  $diagramHeight: 200px;
 
-.loaded-barbell {
-  height: 200px;
-}
-
-.plate {
-  &:after {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    line-height: calc(200px - 0.25rem);
-    color: white;
-    font-weight: bold;
-    text-shadow: 0 0 2px rgba(0,0,0,0.66);
+  @mixin small-plate($height: 100, $small-text: false) {
+    height: #{$height + "%"};
+    &:after {
+      line-height: calc(#{$height / 100} * #{$diagramHeight} - 0.25rem);
+      @if $small-text {
+        font-size: 0.6rem;
+      }
+    }
   }
-}
 
-.plate__100lbs {
-  background-color: theme('colors.black');
-  &:after {
-    content: "100";
-  }
-}
-
-.plate__55lbs {
-  background-color: theme('colors.red.600');
-  &:after {
-    content: "55";
-  }
-}
-
-.plate__45lbs {
-  background-color: theme('colors.blue.600');
-  &:after {
-    content: "45";
-  }
-}
-
-.plate__35lbs {
-  background-color: theme('colors.yellow.600');
-  &:after {
-    content: "35";
-  }
-}
-
-.plate__25lbs {
-  background-color: theme('colors.green.600');
-  &:after {
-    content: "25";
-  }
-}
-
-.plate__15lbs {
-  background-color: theme('colors.black');
-  height: 95%;
-  &:after {
-    content: "15";
-    line-height: calc(0.95 * 200px - 0.25rem);
-  }
-}
-
-.plate__10lbs {
-  background-color: theme('colors.black');
-  height: 90%;
-  &:after {
-    content: "10";
-    line-height: calc(0.9 * 200px - 0.25rem);
-  }
-}
-
-.plate__5lbs {
-  background-color: theme('colors.gray.600');
-  height: 80%;
-  &:after {
-    content: "5";
-    line-height: calc(0.8 * 200px - 0.25rem);
-  }
-}
-
-.plate__2p5lbs {
-  background-color: theme('colors.gray.600');
-  height: 70%;
-  &:after {
-    content: "2.5";
-    line-height: calc(0.7 * 200px - 0.25rem);
-  }
-}
-
-.plate__1p25lbs {
-  background-color: theme('colors.gray.600');
-  height: 60%;
-  &:after {
-    content: "1.25";
-    line-height: calc(0.6 * 200px - 0.25rem);
-    font-size: 0.6rem;
-  }
-}
-
-.plate__0p75lbs {
-  background-color: theme('colors.gray.600');
-  height: 50%;
-  &:after {
-    content: "0.75";
-    line-height: calc(0.5 * 200px - 0.25rem);
-    font-size: 0.6rem;
-  }
-}
-
-.plate__0p5lbs {
-  background-color: theme('colors.gray.600');
-  height: 40%;
-  &:after {
-    content: "0.50";
-    line-height: calc(0.4 * 200px - 0.25rem);
-    font-size: 0.6rem;
-  }
-}
-
-.plate__0p25lbs {
-  background-color: theme('colors.gray.600');
-  height: 30%;
-  &:after {
-    content: "0.25";
-    line-height: calc(0.3 * 200px - 0.25rem);
-    font-size: 0.6rem;
-  }
-}
-
-.barbell {
-  &:before {
+  @mixin empty-content {
     content: "\0020";
-    position: absolute;
-    background-color: theme('colors.gray.400');
-    width: 100%;
-    height: 2rem;
-    top: calc((200px - 2rem)/2);
-    left: 0;
   }
-}
 
-.barbell--bar {
-  &:before {
-    background-image: linear-gradient(to right, white 0%, theme('colors.gray.400') 75%);
+  .loaded-barbell {
+    height: $diagramHeight;
   }
-  &:after {
-    content: "\0020";
-    display: block;
-    position: absolute;
-    width: 15px;
-    height: 4rem;
-    top: calc((200px - 4rem)/2);
-    right: 0;
-    background-color: theme('colors.gray.400');
-    border-radius: 5px;
-  }
-}
 
-.barbell--sleeve {
-  &:before {
-    border-radius: 0 0.375rem 0.375rem 0;
-  }
-  &:after {
-    display: block;
-    position: absolute;
-    top: calc((200px - 2rem)/2);
-    left: 0;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    line-height: 2rem;
-    color: white;
-    font-weight: bold;
-    text-shadow: 0 0 2px rgba(0,0,0,0.66);
-  }
-}
+  .plate {
+    background-color: theme('colors.gray.600');
 
-.barbell--bar + .barbell--sleeve {
-  width: 12rem;
-  &:before {
+    &:after {
+      content: attr(data-weight);
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      line-height: calc(#{$diagramHeight} - 0.25rem);
+      color: white;
+      font-weight: bold;
+      text-shadow: 0 0 2px rgba(0,0,0,0.66);
+    }
+
+    &[data-unit="lbs"] {
+      &[data-weight="100"] {
+        background-color: theme('colors.black');
+      }
+
+      &[data-weight="55"] {
+        background-color: theme('colors.red.600');
+      }
+
+      &[data-weight="45"] {
+        background-color: theme('colors.blue.600');
+      }
+
+      &[data-weight="35"] {
+        background-color: theme('colors.yellow.600');
+      }
+
+      &[data-weight="25"] {
+        background-color: theme('colors.green.600');
+      }
+
+      &[data-weight="15"] {
+        @include small-plate($height: 95);
+        background-color: theme('colors.black');
+      }
+
+      &[data-weight="10"] {
+        @include small-plate($height: 90);
+        background-color: theme('colors.black');
+      }
+
+      &[data-weight="5"] {
+        @include small-plate($height: 80);
+      }
+
+      &[data-weight="2.5"] {
+        @include small-plate($height: 70);
+      }
+
+      &[data-weight="1.25"] {
+        @include small-plate($height: 60, $small-text: true);
+      }
+
+      &[data-weight="0.75"] {
+        @include small-plate($height: 50, $small-text: true);
+
+      }
+
+      &[data-weight="0.5"] {
+        @include small-plate($height: 40, $small-text: true);
+      }
+
+      &[data-weight="0.25"] {
+        @include small-plate($height: 30, $small-text: true);
+      }
+    }
+  }
+
+  .barbell {
+    &:before {
+      @include empty-content;
+      position: absolute;
+      background-color: theme('colors.gray.400');
+      width: 100%;
+      height: 2rem;
+      top: calc((#{$diagramHeight} - 2rem)/2);
+      left: 0;
+    }
+  }
+
+  .barbell--bar {
+    &:before {
+      background-image: linear-gradient(to right, white 0%, theme('colors.gray.400') 75%);
+    }
+    &:after {
+      @include empty-content;
+      display: block;
+      position: absolute;
+      width: 15px;
+      height: 4rem;
+      top: calc((#{$diagramHeight} - 4rem)/2);
+      right: 0;
+      background-color: theme('colors.gray.400');
+      border-radius: 5px;
+    }
+  }
+
+  .barbell--sleeve {
+    &:before {
+      border-radius: 0 0.375rem 0.375rem 0;
+    }
+    &:after {
+      display: block;
+      position: absolute;
+      content: attr(data-weight);
+      top: calc((#{$diagramHeight} - 2rem)/2);
+      left: 0;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      line-height: 2rem;
+      color: white;
+      font-weight: bold;
+      text-shadow: 0 0 2px rgba(0,0,0,0.66);
+    }
+  }
+
+  .barbell--bar + .barbell--sleeve {
     width: 12rem;
-  }
-  &:after {
-    width: 12rem;
-  }
-}
-
-.barbell__33lbs {
-  &:after {
-    content: "33";
-  }
-}
-
-.barbell__44lbs {
-  &:after {
-    content: "44";
-  }
-}
-
-.barbell__45lbs {
-  &:after {
-    content: "45";
+    &:before {
+      width: 12rem;
+    }
+    &:after {
+      width: 12rem;
+    }
   }
 }
