@@ -3,22 +3,24 @@ import PropTypes from "prop-types"
 import BarbellPropType from "../lib/prop-types/barbell"
 import ExerciseWeightPropType from "../lib/prop-types/exercise-weight"
 import PlatePropType from "../lib/prop-types/plate"
+import UnitSystemPropType from "../lib/prop-types/unit-system"
 import PLATES from "../lib/constants/plates"
 import Alert from "../alert/alert"
 import SuccessfulResult from "./successful-result/successful-result"
 import UnsuccessfulResult from "./unsuccessful-result/unsuccessful-result"
 
 const Result = ({
-  barbell,
-  plates,
+  selectedBarbell,
+  selectedPlates,
   exerciseWeight,
+  selectedUnitSystem,
 }) => {
   const [equipment, setEquipment] = useState({ utilizedPlates: [], suggestedPlates: [], exerciseWeightRemaining: exerciseWeight })
 
   const sortByDescendingWeight = (collection) => {
-    return collection.sort((plateA, plateB) => {
-      if (plateA.weight < plateB.weight) { return 1 }
-      if (plateA.weight > plateB.weight) { return -1 }
+    return collection.sort(({ weight: weightA }, { weight: weightB }) => {
+      if (weightA < weightB) { return 1 }
+      if (weightA > weightB) { return -1 }
 
       return 0
     })
@@ -26,7 +28,7 @@ const Result = ({
 
   const calculateExerciseWeightRemainingAfterEquipmentWeight = (exerciseWeightRemaining, weight) => exerciseWeightRemaining - weight
 
-  const calculateSuggestionPlates = (exerciseWeightRemainingObject, utilizedPlates) => {
+  const calculateSuggestionPlates = (exerciseWeightRemainingObject) => {
     const exerciseWeightRemaining = { ...exerciseWeightRemainingObject };
 
     const suggestionPlates = sortByDescendingWeight(PLATES).reduce((collection, plate) => {
@@ -50,7 +52,7 @@ const Result = ({
   }
 
   const calculateUtilizedPlates = (exerciseWeightRemaining) => {
-    return sortByDescendingWeight(plates).reduce((collection, plate) => {
+    return sortByDescendingWeight(selectedPlates).reduce((collection, plate) => {
       const { weight, count } = plate
       const calculatedPlate = { ...plate, count: 0 }
       let tallyAvailableCount = count
@@ -78,31 +80,31 @@ const Result = ({
   const calculatePlatesAndRemainingExerciseWeight = () => {
     const exerciseWeightRemaining = { ...exerciseWeight };
 
-    if (calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, barbell.weight) <= 0) {
+    if (calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, selectedBarbell.weight) <= 0) {
       return { utilizedPlates: [], suggestionPlates: [], exerciseWeightRemaining }
     }
 
-    exerciseWeightRemaining.weight = calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, barbell.weight)
+    exerciseWeightRemaining.weight = calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, selectedBarbell.weight)
 
     const utilizedPlates = calculateUtilizedPlates(exerciseWeightRemaining)
-    const suggestionPlates = calculateSuggestionPlates(exerciseWeightRemaining, utilizedPlates)
+    const suggestionPlates = calculateSuggestionPlates(exerciseWeightRemaining)
 
     return ({ exerciseWeightRemaining, utilizedPlates, suggestionPlates })
   }
 
   useEffect(() => {
-    if (Object.keys(barbell).length > 0 && Object.keys(exerciseWeight).length > 0) {
+    if (Object.keys(selectedBarbell).length > 0 && Object.keys(exerciseWeight).length > 0) {
       setEquipment(calculatePlatesAndRemainingExerciseWeight())
     }
-  }, [barbell, plates, exerciseWeight])
+  }, [selectedBarbell, selectedPlates, exerciseWeight])
 
   return (
     <div>
       {
-        (barbell.weight > exerciseWeight.weight && <Alert>Your exercise weight is less than the barbell weight</Alert>) ||
+        (selectedBarbell.weight > exerciseWeight.weight && <Alert>Your exercise weight is less than the barbell weight</Alert>) ||
         (
           equipment.exerciseWeightRemaining.weight >= 0 && (
-            barbell.weight < exerciseWeight.weight && equipment.utilizedPlates.length > 0 && equipment.suggestionPlates.length > 0 && (
+            selectedBarbell.weight < exerciseWeight.weight && equipment.utilizedPlates.length > 0 && equipment.suggestionPlates.length > 0 && (
               <UnsuccessfulResult
                 suggestionPlates={equipment.suggestionPlates}
                 utilizedPlates={equipment.utilizedPlates}
@@ -110,7 +112,7 @@ const Result = ({
               />
             ) || (
               <SuccessfulResult
-                barbell={barbell}
+                selectedBarbell={selectedBarbell}
                 exerciseWeight={exerciseWeight}
                 plates={equipment.utilizedPlates.length > 0 ? equipment.utilizedPlates : equipment.suggestionPlates}
               />
@@ -123,9 +125,10 @@ const Result = ({
 }
 
 Result.propTypes = {
-  barbell: BarbellPropType.isRequired,
-  plates: PropTypes.arrayOf(PlatePropType).isRequired,
+  selectedBarbell: BarbellPropType.isRequired,
+  selectedPlates: PropTypes.arrayOf(PlatePropType).isRequired,
   exerciseWeight: ExerciseWeightPropType.isRequired,
+  selectedUnitSystem: UnitSystemPropType.isRequired,
 };
 
 export default Result

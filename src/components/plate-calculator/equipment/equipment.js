@@ -2,21 +2,23 @@ import React, { useEffect } from "react"
 import PropTypes from "prop-types"
 import BarbellPropType from "../lib/prop-types/barbell"
 import PlatePropType from "../lib/prop-types/plate"
-import BARBELLS from "../lib/constants/barbells"
-import PLATES from "../lib/constants/plates"
+import UnitSystemPropType from "../lib/prop-types/unit-system"
 import FormElement from "../form/form-element/form-element"
 import FormLabel from "../form/form-label/form-label"
 import FormSelect from "../form/form-select/form-select"
 import { findById, rejectById } from "../lib/helpers/id"
 
 const Equipment = ({
-  barbell,
-  plates,
+  selectedBarbell,
+  selectedPlates,
   handleSetBarbell,
   handleSetPlates,
+  selectedUnitSystem,
+  availableBarbells,
+  availablePlates,
 }) => {
   useEffect(() => {
-    handleSetBarbell(BARBELLS[0])
+    handleSetBarbell(availableBarbells[0])
   }, [])
 
   return (
@@ -27,11 +29,11 @@ const Equipment = ({
         </FormLabel>
         <FormSelect
           id="barbells"
-          handleOnChange={(e) => handleSetBarbell(findById(BARBELLS, e.target.value))}
-          value={barbell.id || BARBELLS[0].id}
+          handleOnChange={(e) => handleSetBarbell(findById(availableBarbells, e.target.value))}
+          value={selectedBarbell.id || availableBarbells[0].id}
         >
           {
-            BARBELLS.map(({ weight, unit, id }) => {
+            availableBarbells.map(({ weight, unit, id }) => {
               return (
                 <option key={id} value={id}>
                   {weight} {unit}
@@ -43,7 +45,7 @@ const Equipment = ({
       </FormElement>
 
       {
-        PLATES.map(({ weight, unit, count, id }) => {
+        availablePlates.map(({ weight, unit, count, id }) => {
           const plateId = `plate__${id}`
 
           return (
@@ -61,7 +63,7 @@ const Equipment = ({
                 data-id={id}
                 placeholder="Number of plates?"
                 value={count}
-                onChange={(e) => handleSetPlates([...rejectById(plates, e.target.dataset.id), { ...findById(PLATES, e.target.dataset.id), count: parseInt(e.target.value) || 0 }].filter(({ count }) => count !== 0))}
+                onChange={(e) => handleSetPlates([...rejectById(selectedPlates, e.target.dataset.id), { ...findById(availablePlates, e.target.dataset.id), count: parseInt(e.target.value) || 0 }].filter(({ count }) => count !== 0))}
               />
             </FormElement>
           )
@@ -72,10 +74,13 @@ const Equipment = ({
 }
 
 Equipment.propTypes = {
-  barbell: BarbellPropType.isRequired,
-  plates: PropTypes.arrayOf(PlatePropType).isRequired,
+  selectedBarbell: BarbellPropType.isRequired,
+  selectedPlates: PropTypes.arrayOf(PlatePropType).isRequired,
   handleSetBarbell: PropTypes.func.isRequired,
   handleSetPlates: PropTypes.func.isRequired,
+  selectedUnitSystem: UnitSystemPropType.isRequired,
+  availablePlates: PropTypes.arrayOf(PlatePropType).isRequired,
+  availableBarbells: PropTypes.arrayOf(BarbellPropType).isRequired,
 };
 
 export default Equipment

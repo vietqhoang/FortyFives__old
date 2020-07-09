@@ -4,5 +4,5 @@ export default PropTypes.shape({
   id: PropTypes.number,
   weight: PropTypes.number,
   unit: PropTypes.string,
-  unitSystem: PropTypes.string,
+  unitSystemId: PropTypes.number,
 })

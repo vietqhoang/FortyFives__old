@@ -7,12 +7,19 @@ import ExerciseWeight from "./exercise-weight/exercise-weight"
 import UnitSystem from "./unit-system/unit-system"
 import SectionHeader from "./section-header/section-header"
 import Result from "./result/result"
+import BARBELLS from "./lib/constants/barbells"
+import PLATES from "./lib/constants/plates"
+import UNIT_SYSTEMS from "./lib/constants/unit-systems"
+import { filterByUnitSystemId } from "./lib/helpers/id"
 
 const PlateCalculator = () => {
-  const [barbell, setBarbell] = useState({})
-  const [plates, setPlates] = useState([])
+  const [selectedUnitSystem, setSelectedUnitSystem] = useState(UNIT_SYSTEMS[0])
+  const [selectedBarbell, setSelectedBarbell] = useState({})
+  const [selectedPlates, setSelectedPlates] = useState([])
   const [exerciseWeight, setExerciseWeight] = useState({})
-  const [unitSystem, setUnitSystem] = useState({})
+
+  const availableBarbells = filterByUnitSystemId(BARBELLS, selectedUnitSystem.id)
+  const availablePlates = filterByUnitSystemId(PLATES, selectedUnitSystem.id)
 
   return (
     <div className="flex divide-x divide-gray-400 font-sans">
@@ -21,23 +28,27 @@ const PlateCalculator = () => {
         <ColumnSection>
           <SectionHeader>Select a unit system</SectionHeader>
           <UnitSystem
-            unitSystem={unitSystem}
-            handleSetUnitSystem={setUnitSystem}
+            selectedUnitSystem={selectedUnitSystem}
+            handleSetUnitSystem={setSelectedUnitSystem}
           />
         </ColumnSection>
         <ColumnSection>
           <SectionHeader>What is your exercise weight?</SectionHeader>
           <ExerciseWeight
             handleSetExerciseWeight={setExerciseWeight}
+            selectedUnitSystem={selectedUnitSystem}
           />
         </ColumnSection>
         <ColumnSection>
           <SectionHeader>What is your equipment?</SectionHeader>
           <Equipment
-            barbell={barbell}
-            plates={plates}
-            handleSetBarbell={setBarbell}
-            handleSetPlates={setPlates}
+            selectedBarbell={selectedBarbell}
+            selectedPlates={selectedPlates}
+            availableBarbells={availableBarbells}
+            availablePlates={availablePlates}
+            handleSetBarbell={setSelectedBarbell}
+            handleSetPlates={setSelectedPlates}
+            selectedUnitSystem={selectedUnitSystem}
           />
         </ColumnSection>
       </ColumnLayout>
@@ -45,9 +56,10 @@ const PlateCalculator = () => {
         <ColumnHeader>Result</ColumnHeader>
         <ColumnSection>
           <Result
-            barbell={barbell}
-            plates={plates}
+            selectedBarbell={selectedBarbell}
+            selectedPlates={selectedPlates}
             exerciseWeight={exerciseWeight}
+            selectedUnitSystem={selectedUnitSystem}
           />
         </ColumnSection>
       </ColumnLayout>

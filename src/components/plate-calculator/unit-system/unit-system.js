@@ -9,13 +9,9 @@ import { findById } from "../lib/helpers/id"
 
 const UnitSystem = ({
   handleSetUnitSystem,
-  unitSystem,
+  selectedUnitSystem,
 }) => {
   const titleize = (string) => string.charAt(0).toUpperCase() + string.slice(1)
-
-  useEffect(() => {
-    handleSetUnitSystem(UNIT_SYSTEMS[0])
-  }, [])
 
   return (
     <form>
@@ -26,7 +22,7 @@ const UnitSystem = ({
         <FormSelect
           id="unit-systems"
           handleOnChange={(e) => handleSetUnitSystem(findById(UNIT_SYSTEMS, e.target.value))}
-          value={unitSystem.id || UNIT_SYSTEMS[0].id}
+          value={selectedUnitSystem.id}
         >
           {
             UNIT_SYSTEMS.map(({ name, weightUnit, id }) => {
@@ -45,7 +41,7 @@ const UnitSystem = ({
 
 UnitSystem.propTypes = {
   handleSetUnitSystem: PropTypes.func.isRequired,
-  unitSystem: UnitSystemPropType.isRequired,
+  selectedUnitSystem: UnitSystemPropType.isRequired,
 };
 
 export default UnitSystem

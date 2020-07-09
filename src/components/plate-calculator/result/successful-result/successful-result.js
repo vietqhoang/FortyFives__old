@@ -7,17 +7,17 @@ import EquipmentDiagram from "../equipment-diagram/equipment-diagram"
 import PlateTable from "../plate-table/plate-table"
 
 const SuccessfulResult = ({
-  barbell,
+  selectedBarbell,
   plates,
   exerciseWeight,
 }) => {
   const isPlatesPresent = plates.length > 0
-  const diagramSupplementText = isPlatesPresent && `${(exerciseWeight.weight - barbell.weight)/2} ${exerciseWeight.unit}/side` || `No plates required. Lift the barbell!`
+  const diagramSupplementText = isPlatesPresent && `${(exerciseWeight.weight - selectedBarbell.weight)/2} ${exerciseWeight.unit}/side` || `No plates required. Lift the barbell!`
 
   return (
     <div className="successful-result">
       <EquipmentDiagram
-        barbell={barbell}
+        barbell={selectedBarbell}
         plates={plates}
       />
 
@@ -39,7 +39,7 @@ const SuccessfulResult = ({
 }
 
 SuccessfulResult.propTypes = {
-  barbell: BarbellPropType.isRequired,
+  selectedBarbell: BarbellPropType.isRequired,
   exerciseWeight: ExerciseWeightPropType.isRequired,
   plates: PropTypes.arrayOf(PlatePropType).isRequired,
 };

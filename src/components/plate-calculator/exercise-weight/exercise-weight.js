@@ -1,29 +1,38 @@
 import React from "react"
 import PropTypes from "prop-types"
+import UnitSystemPropType from "../lib/prop-types/unit-system"
 
 const ExerciseWeight = ({
   handleSetExerciseWeight,
+  selectedUnitSystem,
 }) => {
-  const id = "exercise-weight"
+  const formControlId = "exercise-weight"
+  const { weightUnit, id, weightLimit, step } = selectedUnitSystem
+
+  const removeDecimal = (value) => value.replace(".", "")
+  const limitValue = (value, limit) => value > limit ? limit : value
 
   return (
     <form>
       <div className="mb-4">
         <label
           className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor={id}
+          htmlFor={formControlId}
         >
-          Exercise weight (lbs)
+          Exercise weight ({weightUnit})
         </label>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id={id}
+          id={formControlId}
           type="number"
           min="0"
-          max="1000"
-          step="10"
+          max={weightLimit}
+          step={step}
           placeholder="Weight being lifted?"
-          onChange={(e) => handleSetExerciseWeight({ weight: parseFloat(e.target.value), unit: "lbs", unitSystem: "imperial" })}
+          onChange={(e) => {
+            e.target.value = limitValue(removeDecimal(e.target.value), weightLimit)
+            handleSetExerciseWeight({ weight: parseInt(e.target.value), unit: weightUnit, unitSystemId: id })
+          }}
         />
       </div>
     </form>
@@ -31,7 +40,8 @@ const ExerciseWeight = ({
 }
 
 ExerciseWeight.propTypes = {
-  handleSetExerciseWeight: PropTypes.func.isRequired
+  handleSetExerciseWeight: PropTypes.func.isRequired,
+  selectedUnitSystem: UnitSystemPropType.isRequired,
 };
 
 export default ExerciseWeight
