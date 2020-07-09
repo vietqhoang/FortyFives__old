@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import PropTypes from "prop-types"
 import UnitSystemPropType from "../lib/prop-types/unit-system"
 import UNIT_SYSTEMS from "../lib/constants/unit-systems"
