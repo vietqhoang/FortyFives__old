@@ -4,7 +4,7 @@
   @mixin small-plate($height: 100, $small-text: false) {
     height: #{$height + "%"};
     &:after {
-      line-height: calc(#{$height / 100} * #{$diagramHeight} - 0.25rem);
+      line-height: calc(#{$height / 100} * #{$diagramHeight});
       @if $small-text {
         font-size: 0.6rem;
       }
@@ -31,7 +31,7 @@
       width: 100%;
       height: 100%;
       text-align: center;
-      line-height: calc(#{$diagramHeight} - 0.25rem);
+      line-height: $diagramHeight;
       color: white;
       font-weight: bold;
       text-shadow: 0 0 2px rgba(0,0,0,0.66);
@@ -73,7 +73,7 @@
       }
 
       &[data-weight="2.5"] {
-        @include small-plate($height: 70);
+        @include small-plate($height: 70, $small-text: true);
       }
 
       &[data-weight="1.25"] {
@@ -132,12 +132,12 @@
       display: block;
       position: absolute;
       content: attr(data-weight);
-      top: calc((#{$diagramHeight} - 2rem)/2);
+      top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       text-align: center;
-      line-height: 2rem;
+      line-height: $diagramHeight;
       color: white;
       font-weight: bold;
       text-shadow: 0 0 2px rgba(0,0,0,0.66);
