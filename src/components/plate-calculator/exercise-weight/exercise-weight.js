@@ -9,7 +9,6 @@ const ExerciseWeight = ({
   const formControlId = "exercise-weight"
   const { weightUnit, id, weightLimit, step } = selectedUnitSystem
 
-  const removeDecimal = (value) => value.replace(".", "")
   const limitValue = (value, limit) => value > limit ? limit : value
 
   return (
@@ -30,8 +29,8 @@ const ExerciseWeight = ({
           step={step}
           placeholder="Weight being lifted?"
           onChange={(e) => {
-            e.target.value = limitValue(removeDecimal(e.target.value), weightLimit)
-            handleSetExerciseWeight({ weight: parseInt(e.target.value), unit: weightUnit, unitSystemId: id })
+            e.target.value = limitValue(e.target.value, weightLimit)
+            handleSetExerciseWeight({ weight: parseFloat(e.target.value), unit: weightUnit, unitSystemId: id })
           }}
         />
       </div>

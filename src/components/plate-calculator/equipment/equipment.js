@@ -19,7 +19,7 @@ const Equipment = ({
 }) => {
   useEffect(() => {
     handleSetBarbell(availableBarbells[0])
-  }, [])
+  }, [selectedUnitSystem])
 
   return (
     <form>

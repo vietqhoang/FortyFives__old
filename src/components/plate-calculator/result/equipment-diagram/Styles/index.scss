@@ -65,24 +65,26 @@
 
       &[data-weight="10"] {
         @include small-plate($height: 90);
-        background-color: theme('colors.black');
+        background-color: theme('colors.gray.700');
       }
 
       &[data-weight="5"] {
         @include small-plate($height: 80);
+        background-color: theme('colors.blue.600');
       }
 
       &[data-weight="2.5"] {
         @include small-plate($height: 70, $small-text: true);
+        background-color: theme('colors.green.600');
       }
 
       &[data-weight="1.25"] {
         @include small-plate($height: 60, $small-text: true);
+        background-color: theme('colors.gray.700');
       }
 
       &[data-weight="0.75"] {
         @include small-plate($height: 50, $small-text: true);
-
       }
 
       &[data-weight="0.5"] {
@@ -91,6 +93,68 @@
 
       &[data-weight="0.25"] {
         @include small-plate($height: 30, $small-text: true);
+      }
+    }
+
+    &[data-unit="kgs"] {
+      &[data-weight="50"] {
+        background-color: theme('colors.green.600');
+      }
+
+      &[data-weight="25"] {
+        background-color: theme('colors.red.600');
+      }
+
+      &[data-weight="20"] {
+        background-color: theme('colors.blue.600');
+      }
+
+      &[data-weight="15"] {
+        background-color: theme('colors.yellow.600');
+      }
+
+      &[data-weight="10"] {
+        background-color: theme('colors.green.600');
+      }
+
+      &[data-weight="5"] {
+        @include small-plate($height: 95);
+        background-color: theme('colors.gray.700');
+      }
+
+      &[data-weight="2.5"] {
+        @include small-plate($height: 90);
+        background-color: theme('colors.red.600');
+      }
+
+      &[data-weight="2"] {
+        @include small-plate($height: 80);
+        background-color: theme('colors.blue.600');
+      }
+
+      &[data-weight="1.5"] {
+        @include small-plate($height: 70, $small-text: true);
+        background-color: theme('colors.yellow.600');
+      }
+
+      &[data-weight="1"] {
+        @include small-plate($height: 60, $small-text: true);
+        background-color: theme('colors.blue.600');
+      }
+
+      &[data-weight="0.5"] {
+        @include small-plate($height: 50, $small-text: true);
+        background-color: theme('colors.gray.700');
+      }
+
+      &[data-weight="0.25"] {
+        @include small-plate($height: 40, $small-text: true);
+        background-color: theme('colors.red.600');
+      }
+
+      &[data-weight="0.125"] {
+        @include small-plate($height: 30, $small-text: true);
+        background-color: theme('colors.blue.600');
       }
     }
   }

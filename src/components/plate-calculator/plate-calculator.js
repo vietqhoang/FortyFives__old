@@ -60,6 +60,7 @@ const PlateCalculator = () => {
             selectedPlates={selectedPlates}
             exerciseWeight={exerciseWeight}
             selectedUnitSystem={selectedUnitSystem}
+            availablePlates={availablePlates}
           />
         </ColumnSection>
       </ColumnLayout>
