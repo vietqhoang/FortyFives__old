@@ -7,6 +7,7 @@ import UnitSystemPropType from "../lib/prop-types/unit-system"
 import Alert from "../alert/alert"
 import SuccessfulResult from "./successful-result/successful-result"
 import UnsuccessfulResult from "./unsuccessful-result/unsuccessful-result"
+import sortByDescendingWeight from "../lib/helpers/sort"
 
 const Result = ({
   selectedBarbell,
@@ -17,44 +18,32 @@ const Result = ({
 }) => {
   const [equipment, setEquipment] = useState({ utilizedPlates: [], suggestedPlates: [], exerciseWeightRemaining: exerciseWeight })
 
-  const sortByDescendingWeight = (collection) => {
-    return collection.sort(({ weight: weightA }, { weight: weightB }) => {
-      if (weightA < weightB) { return 1 }
-      if (weightA > weightB) { return -1 }
-
-      return 0
-    })
-  }
-
   const calculateExerciseWeightRemainingAfterEquipmentWeight = (exerciseWeightRemaining, weight) => exerciseWeightRemaining - weight
 
   const calculateSuggestionPlates = (exerciseWeightRemaining) => {
     let { weight: remainingWeight } = exerciseWeightRemaining
 
-    const suggestionPlates = sortByDescendingWeight(availablePlates).reduce((collection, plate) => {
+    return sortByDescendingWeight(availablePlates).reduce((collection, plate) => {
       const { weight: plateWeight } = plate
-      const suggestionPlate = { ...plate, count: 0 }
+      let suggestionPlates = []
 
       if (calculateExerciseWeightRemainingAfterEquipmentWeight(remainingWeight, plateWeight * 2) < 0) {
         return collection
       }
 
       while (calculateExerciseWeightRemainingAfterEquipmentWeight(remainingWeight, plateWeight * 2) >= 0) {
-        suggestionPlate.count++
-        suggestionPlate.count++
+        suggestionPlates = [...suggestionPlates, plate]
         remainingWeight = calculateExerciseWeightRemainingAfterEquipmentWeight(remainingWeight, plateWeight * 2)
       }
 
-      return [...collection, suggestionPlate]
+      return [...collection, ...suggestionPlates]
     }, [])
-
-    return suggestionPlates
   }
 
   const calculateUtilizedPlates = (exerciseWeightRemaining) => {
     return sortByDescendingWeight(selectedPlates).reduce((collection, plate) => {
       const { weight: plateWeight } = plate
-      const calculatedPlate = { ...plate, count: 0 }
+      let utilizedPlates = []
       let { count: plateCount } = plate
 
       if (calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, plateWeight * 2) < 0) {
@@ -66,14 +55,14 @@ const Result = ({
           break
         }
 
-        calculatedPlate.count++
-        calculatedPlate.count++
+        utilizedPlates = [...utilizedPlates, plate]
+
         plateCount--
         plateCount--
         exerciseWeightRemaining.weight = calculateExerciseWeightRemainingAfterEquipmentWeight(exerciseWeightRemaining.weight, plateWeight * 2)
       }
 
-      return [...collection, calculatedPlate]
+      return [...collection, ...utilizedPlates]
     }, [])
   }
 
@@ -111,6 +100,7 @@ const Result = ({
                 suggestionPlates={equipment.suggestionPlates}
                 utilizedPlates={equipment.utilizedPlates}
                 exerciseWeightRemaining={equipment.exerciseWeightRemaining}
+                selectedBarbell={selectedBarbell}
               />
             ) || (
               <SuccessfulResult

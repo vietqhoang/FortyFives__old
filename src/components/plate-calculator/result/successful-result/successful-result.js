@@ -30,7 +30,6 @@ const SuccessfulResult = ({
           <PlateTable
             caption="Load each side of the bar with the following plates"
             plates={plates}
-            dividePlates={true}
           />
         )
       }
