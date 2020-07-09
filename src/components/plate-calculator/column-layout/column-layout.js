@@ -14,7 +14,7 @@ const ColumnLayout = ({
 }
 
 ColumnLayout.propTypes = {
-  children: ChildrenPropType.isRequired
+  children: ChildrenPropType.isRequired,
 };
 
 export default ColumnLayout
