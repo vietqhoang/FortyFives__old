@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import UnitSystemPropType from "../lib/prop-types/unit-system"
+import FormLabel from "../form/form-label/form-label"
 
 const ExerciseWeight = ({
   handleSetExerciseWeight,
@@ -14,12 +15,11 @@ const ExerciseWeight = ({
   return (
     <form>
       <div className="mb-4">
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
+        <FormLabel
           htmlFor={formControlId}
         >
           Exercise weight ({weightUnit})
-        </label>
+        </FormLabel>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id={formControlId}
