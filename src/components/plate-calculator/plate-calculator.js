@@ -12,6 +12,7 @@ const PlateCalculator = () => {
   const [barbell, setBarbell] = useState({})
   const [plates, setPlates] = useState([])
   const [exerciseWeight, setExerciseWeight] = useState({})
+  const [unitSystem, setUnitSystem] = useState({})
 
   return (
     <div className="flex divide-x divide-gray-400 font-sans">
@@ -19,7 +20,10 @@ const PlateCalculator = () => {
         <ColumnHeader>Calculate plates required to set-up bar for exercise weight</ColumnHeader>
         <ColumnSection>
           <SectionHeader>Select a unit system</SectionHeader>
-          <UnitSystem/>
+          <UnitSystem
+            unitSystem={unitSystem}
+            handleSetUnitSystem={setUnitSystem}
+          />
         </ColumnSection>
         <ColumnSection>
           <SectionHeader>What is your exercise weight?</SectionHeader>

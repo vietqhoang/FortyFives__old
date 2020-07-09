@@ -23,7 +23,7 @@ const ExerciseWeight = ({
           max="1000"
           step="10"
           placeholder="Weight being lifted?"
-          onChange={(e) => handleSetExerciseWeight({ weight: parseFloat(e.target.value), unit: "lbs", system: "imperial" })}
+          onChange={(e) => handleSetExerciseWeight({ weight: parseFloat(e.target.value), unit: "lbs", unitSystem: "imperial" })}
         />
       </div>
     </form>

@@ -28,7 +28,7 @@ const Equipment = ({
         <FormSelect
           id="barbells"
           handleOnChange={(e) => handleSetBarbell(findById(BARBELLS, e.target.value))}
-          value={barbell.id}
+          value={barbell.id || BARBELLS[0].id}
         >
           {
             BARBELLS.map(({ weight, unit, id }) => {

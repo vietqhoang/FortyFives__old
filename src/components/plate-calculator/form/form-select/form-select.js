@@ -23,7 +23,7 @@ const FormSelect = ({
 FormSelect.propTypes = {
   children: ChildrenPropType.isRequired,
   id: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
   handleOnChange: PropTypes.func.isRequired,
 };
 
