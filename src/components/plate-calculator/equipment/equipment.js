@@ -4,6 +4,9 @@ import BarbellPropType from "../lib/prop-types/barbell"
 import PlatePropType from "../lib/prop-types/plate"
 import BARBELLS from "../lib/constants/barbells"
 import PLATES from "../lib/constants/plates"
+import FormElement from "../form/form-element/form-element"
+import FormLabel from "../form/form-label/form-label"
+import FormSelect from "../form/form-select/form-select"
 
 const Equipment = ({
   barbell,
@@ -22,63 +25,55 @@ const Equipment = ({
 
   return (
     <form>
-      <div className="mb-6">
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="barbells"
-        >
+      <FormElement>
+        <FormLabel htmlFor="barbells">
           Barbells
-        </label>
-        <select
+        </FormLabel>
+        <FormSelect
           id="barbells"
-          className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-          onChange={(e) => handleSetBarbell(findByWeight(BARBELLS, e.target.value))}
+          handleOnChange={(e) => handleSetBarbell(findByWeight(BARBELLS, e.target.value))}
           value={barbell.weight}
         >
           {
-            BARBELLS.map((barbellOption) => {
-              const { weight, unit } = barbellOption
+            BARBELLS.map((aBarbell) => {
+              const { weight, unit } = aBarbell
 
               return (
-                <option key={barbellId(barbellOption)} value={weight}>
+                <option key={barbellId(aBarbell)} value={weight}>
                   {weight} {unit}
                 </option>
               )
             })
           }
-        </select>
-      </div>
+        </FormSelect>
+      </FormElement>
 
-      <div>
-        {
-          PLATES.map((plate) => {
-            const { weight, unit, count } = plate
+      {
+        PLATES.map((plate) => {
+          const { weight, unit, count } = plate
+          const id = plateId(plate)
 
-            return (
-              <div key={plateId(plate)} className="mb-4">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor={plateId(plate)}
-                >
-                  {weight} {unit} plate
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id={plateId(plate)}
-                  type="number"
-                  min="0"
-                  max="10"
-                  step="2"
-                  data-weight={weight}
-                  placeholder="Number of plates?"
-                  value={count}
-                  onChange={(e) => handleSetPlates([...rejectByWeight(plates, e.target.dataset.weight), { ...findByWeight(PLATES, e.target.dataset.weight), count: parseInt(e.target.value) || 0 }].filter(({ count }) => count !== 0))}
-                />
-              </div>
-            )
-          })
-        }
-      </div>
+          return (
+            <FormElement key={id}>
+              <FormLabel htmlFor={id}>
+                {weight} {unit} plate
+              </FormLabel>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id={plateId(plate)}
+                type="number"
+                min="0"
+                max="10"
+                step="2"
+                data-weight={weight}
+                placeholder="Number of plates?"
+                value={count}
+                onChange={(e) => handleSetPlates([...rejectByWeight(plates, e.target.dataset.weight), { ...findByWeight(PLATES, e.target.dataset.weight), count: parseInt(e.target.value) || 0 }].filter(({ count }) => count !== 0))}
+              />
+            </FormElement>
+          )
+        })
+      }
     </form>
   )
 }

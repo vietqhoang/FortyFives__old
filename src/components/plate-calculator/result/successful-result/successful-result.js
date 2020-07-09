@@ -11,6 +11,9 @@ const SuccessfulResult = ({
   plates,
   exerciseWeight,
 }) => {
+  const isPlatesPresent = plates.length > 0
+  const diagramSupplementText = isPlatesPresent && `${(exerciseWeight.weight - barbell.weight)/2} ${exerciseWeight.unit}/side` || `No plates required. Lift the barbell!`
+
   return (
     <div className="successful-result">
       <EquipmentDiagram
@@ -18,13 +21,19 @@ const SuccessfulResult = ({
         plates={plates}
       />
 
-      <h3 className="text-center text-gray-600 text-2xl my-4">{(exerciseWeight.weight - barbell.weight)/2} {exerciseWeight.unit}/side</h3>
+      <h3 className="text-center text-gray-600 text-2xl my-4">
+        {diagramSupplementText}
+      </h3>
 
-      <PlateTable
-        caption="Load each side of the bar with the following plates"
-        plates={plates}
-        dividePlates={true}
-      />
+      {
+        isPlatesPresent && (
+          <PlateTable
+            caption="Load each side of the bar with the following plates"
+            plates={plates}
+            dividePlates={true}
+          />
+        )
+      }
     </div>
   )
 }
