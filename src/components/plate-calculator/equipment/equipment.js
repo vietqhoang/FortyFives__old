@@ -7,6 +7,7 @@ import PLATES from "../lib/constants/plates"
 import FormElement from "../form/form-element/form-element"
 import FormLabel from "../form/form-label/form-label"
 import FormSelect from "../form/form-select/form-select"
+import { findById, rejectById } from "../lib/helpers/id"
 
 const Equipment = ({
   barbell,
@@ -14,11 +15,6 @@ const Equipment = ({
   handleSetBarbell,
   handleSetPlates,
 }) => {
-  const barbellId = ({ weight, unit }) => (weight && unit && `barbell__${weight}${unit}`) || ""
-  const findByWeight = (collection, weightValue) => collection.find(({ weight }) => weight === parseFloat(weightValue))
-  const plateId = ({ weight, unit }) => (weight && unit && `plate__${weight}${unit}`) || ""
-  const rejectByWeight = (collection, weightValue) => collection.filter(({ weight }) => weight !== parseFloat(weightValue))
-
   useEffect(() => {
     handleSetBarbell(BARBELLS[0])
   }, [])
@@ -31,15 +27,13 @@ const Equipment = ({
         </FormLabel>
         <FormSelect
           id="barbells"
-          handleOnChange={(e) => handleSetBarbell(findByWeight(BARBELLS, e.target.value))}
-          value={barbell.weight}
+          handleOnChange={(e) => handleSetBarbell(findById(BARBELLS, e.target.value))}
+          value={barbell.id}
         >
           {
-            BARBELLS.map((aBarbell) => {
-              const { weight, unit } = aBarbell
-
+            BARBELLS.map(({ weight, unit, id }) => {
               return (
-                <option key={barbellId(aBarbell)} value={weight}>
+                <option key={id} value={id}>
                   {weight} {unit}
                 </option>
               )
@@ -49,26 +43,25 @@ const Equipment = ({
       </FormElement>
 
       {
-        PLATES.map((plate) => {
-          const { weight, unit, count } = plate
-          const id = plateId(plate)
+        PLATES.map(({ weight, unit, count, id }) => {
+          const plateId = `plate__${id}`
 
           return (
             <FormElement key={id}>
-              <FormLabel htmlFor={id}>
+              <FormLabel htmlFor={plateId}>
                 {weight} {unit} plate
               </FormLabel>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id={plateId(plate)}
+                id={plateId}
                 type="number"
                 min="0"
                 max="10"
                 step="2"
-                data-weight={weight}
+                data-id={id}
                 placeholder="Number of plates?"
                 value={count}
-                onChange={(e) => handleSetPlates([...rejectByWeight(plates, e.target.dataset.weight), { ...findByWeight(PLATES, e.target.dataset.weight), count: parseInt(e.target.value) || 0 }].filter(({ count }) => count !== 0))}
+                onChange={(e) => handleSetPlates([...rejectById(plates, e.target.dataset.id), { ...findById(PLATES, e.target.dataset.id), count: parseInt(e.target.value) || 0 }].filter(({ count }) => count !== 0))}
               />
             </FormElement>
           )
